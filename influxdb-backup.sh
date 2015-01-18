@@ -6,6 +6,7 @@ function parse_options {
 \t-u USERNAME\t(default: root)
 \t-p PASSWORD\t(default: root)
 \t-h HOST\t\t(default: localhost:8086)
+\t-r SERIES REGEXP\t\t(default: /.*/)
 \t-s\t\t(use HTTPS)"
   }
   if [ "$#" -lt 2 ]; then
@@ -15,6 +16,7 @@ function parse_options {
   username=root
   password=root
   host=localhost:8086
+  regexp=/.*/
   https=0
   shift
   database=$1
@@ -25,6 +27,7 @@ function parse_options {
     u) username="${OPTARG}";;
     p) password="${OPTARG}";;
     h) host="${OPTARG}";;
+    r) regexp="${OPTARG}";;
     s) https=1;;
     ?) usage; exit 1;;
     esac
@@ -39,7 +42,7 @@ function parse_options {
 function dump {
   parse_options $@
 
-  curl -s -k -G "${scheme}://${host}/db/${database}/series?u=${username}&p=${password}&chunked=true" --data-urlencode "q=select * from /.*/" \
+  curl -s -k -G "${scheme}://${host}/db/${database}/series?u=${username}&p=${password}&chunked=true" --data-urlencode "q=select * from ${regexp}" \
     | jq . -c -M
   exit
 }
