@@ -30,5 +30,6 @@ Usage: ./influxdb-backup.sh dump DATABASE [options...]
 	-u USERNAME	(default: root)
 	-p PASSWORD	(default: root)
 	-h HOST		(default: localhost:8086)
+    -r SERIES REGEXP (default: /.*/)
 	-s		(use HTTPS)
 ```
