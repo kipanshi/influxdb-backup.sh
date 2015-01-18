@@ -22,7 +22,7 @@ function parse_options {
   database=$1
   shift
 
-  while getopts u:p:h:s opts
+  while getopts u:p:h:r:s opts
   do case "${opts}" in
     u) username="${OPTARG}";;
     p) password="${OPTARG}";;
